@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "bun run server.ts",
-    "updateRelics": "bun run scripts/updateRelics.ts"
+    "updateRelics": "bun run scripts/update-relics.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.1.8",

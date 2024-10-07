@@ -1,4 +1,4 @@
-import type ItemApiRelicReward from "./apiRelicReward"
+import type ItemApiRelicReward from "./api-relic-reward"
 
 export default interface ApiRelic {
     tier: "Lith" | "Neo" | "Meso" | "Axi" | "Requiem"

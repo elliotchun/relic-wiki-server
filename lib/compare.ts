@@ -1,5 +1,5 @@
 import type { RelicEra, Relic } from "../models/relic"
-import type { RelicReward, RewardRarity } from "../models/relicReward"
+import type { RelicReward, RewardRarity } from "../models/relic-reward"
 import { rarityMapping, romanNumeralsRequiemMapping } from "./mappings"
 
 export const compareEra = (a: RelicEra, b: RelicEra) => {

@@ -2,8 +2,8 @@ import { Elysia, t } from "elysia"
 import { cors } from "@elysiajs/cors"
 import { html } from "@elysiajs/html"
 import { staticPlugin } from "@elysiajs/static"
-import { getRelics, relicSources } from "./lib/relics"
-import { LobbyManager } from "./lib/lobbyManager"
+import { getRelics, relicSources } from "./lib/relic-utils"
+import { LobbyManager } from "./lib/lobby-manager"
 
 const port = 8080
 export const app = new Elysia()

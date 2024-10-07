@@ -1,7 +1,7 @@
 import { compareRelic, compareRelicReward } from "../lib/compare"
 import { getRarity } from "../lib/mappings"
-import type ApiRelic from "../models/api/apiRelic"
-import type ItemApiResponse from "../models/api/apiResponse"
+import type ApiRelic from "../models/api/api-relic"
+import type ItemApiResponse from "../models/api/api-response"
 
 const response = await fetch("https://drops.warframestat.us/data/relics.json")
 if (response.ok) {

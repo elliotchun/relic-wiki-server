@@ -1,6 +1,6 @@
 import { relicToString } from "../models/relic";
 import type User from "../models/user";
-import { getRelics } from "./relics";
+import { getRelics } from "./relic-utils";
 
 export const LobbyManager = {
     lobbies: new Map<string, User[]>(),

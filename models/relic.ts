@@ -1,4 +1,4 @@
-import type { RelicReward } from "./relicReward"
+import type { RelicReward } from "./relic-reward"
 
 export type RelicRefinement = "Intact" | "Exceptional" | "Flawless" | "Radiant"
 export type RelicEra = "Lith" | "Neo" | "Meso" | "Axi" | "Requiem"
