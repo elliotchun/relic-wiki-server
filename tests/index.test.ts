@@ -2,6 +2,8 @@
 import { describe, expect, it } from "bun:test"
 import { app } from "../server"
 import { rarityMapping, refinementMapping } from "../lib/mappings"
+import { compareRelic } from "../lib/compare"
+import type { Relic } from "../models/relic"
 
 describe("Elysia", () => {
     it("All lobbies exist for a random relic", async () => {
@@ -34,5 +36,20 @@ describe("Relic Compare", () => {
     })
     it("Flawless < Radiant", () => {
         expect(refinementMapping("Flawless") < refinementMapping("Radiant"))
+    })
+    it("Lith A1 < Meso A1", () => {
+        const LithA1Relic: Relic = {
+            name: "A1",
+            era: "Lith",
+            refinement: "Intact",
+            rewards: []
+        }
+        const MesoA1Relic: Relic = {
+            name: "A1",
+            era: "Meso",
+            refinement: "Intact",
+            rewards: []
+        }
+        expect(compareRelic(LithA1Relic, MesoA1Relic)).toBeLessThan(0)
     })
 })
