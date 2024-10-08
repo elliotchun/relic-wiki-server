@@ -2,7 +2,7 @@ import { Elysia, t } from "elysia"
 import { cors } from "@elysiajs/cors"
 import { html } from "@elysiajs/html"
 import { staticPlugin } from "@elysiajs/static"
-import { getRelics, relicSources } from "./lib/relic-utils"
+import {getPrimes, getRelics, relicSources} from "./lib/relic-utils"
 import { LobbyManager } from "./lib/lobby-manager"
 
 const port = 8080
@@ -16,6 +16,7 @@ export const app = new Elysia()
     .group("/api", app =>
         app
             .get("/relics", async () => await getRelics())
+            .get("/primes", async () => await getPrimes())
             .get("/primes/:name", async ({ params: { name } }) => await relicSources(decodeURI(name)),
                 {
                     params: t.Object({
