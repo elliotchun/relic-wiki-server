@@ -1,5 +1,5 @@
 import type { Relic } from "../models/relic"
-import type {RelicReward} from "../models/relic-reward.ts";
+import type { RelicReward } from "../models/relic-reward.ts";
 
 interface Relics {
     relics: Relic[]
@@ -22,7 +22,7 @@ export const getPrimes = async () => {
     relics.relics.forEach(relic => {
         relic.rewards.forEach(prime_part => {
             primes.has(prime_part) ?
-                primes.get(prime_part).push(relic) :
+                primes.get(prime_part)!.push(relic) :
                 primes.set(prime_part, [relic])
         })
     })
