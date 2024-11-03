@@ -4,14 +4,14 @@ import { getRelics } from "./relic-utils";
 
 export const LobbyManager = {
     lobbies: new Map<string, User[]>(),
-    getLobby(relicname: string, refinement: string) {
-        const lobby = this.lobbies.get(relicname + refinement)
+    getLobby(relicName: string, refinement: string) {
+        const lobby = this.lobbies.get(relicName + refinement)
         if (lobby)
             return lobby
         throw new Error("That room does not exist!")
     },
-    joinLobby(user: User, relicname: string, refinement: string) {
-        const lobby = this.getLobby(relicname, refinement)
+    joinLobby(user: User, relicName: string, refinement: string) {
+        const lobby = this.getLobby(relicName, refinement)
         if (lobby.length < 4) {
             if (!lobby.some(e => e.name === user.name)) {
                 lobby.push(user)
@@ -23,9 +23,7 @@ export const LobbyManager = {
     }
 }
 
-getRelics().then(res => {
-    res.relics.forEach(relic => {
-        LobbyManager.lobbies.set(relicToString(relic), [])
-    })
+const response = await getRelics()
+response.relics.forEach(relic => {
+    LobbyManager.lobbies.set(relicToString(relic), [])
 })
-

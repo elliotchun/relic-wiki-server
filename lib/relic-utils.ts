@@ -18,20 +18,16 @@ export const relicSources = async (name: string) => {
 
 export const getPrimes = async () => {
     const relics = await getRelics()
-    const primes = new Map<RelicReward, Relic[]>()
+    const primeDropSourcesMap = new Map<string, string[]>()
     relics.relics.forEach(relic => {
-        relic.rewards.forEach(prime_part => {
-            primes.has(prime_part) ?
-                primes.get(prime_part)!.push(relic) :
-                primes.set(prime_part, [relic])
+        const relicName = `${relic.era} ${relic.name} (${relic.refinement})`
+        relic.rewards.forEach(primePart => {
+            if (primeDropSourcesMap.has(primePart.name))
+                primeDropSourcesMap.get(primePart.name)?.push(relicName)
+            else
+                primeDropSourcesMap.set(primePart.name, [relicName])
         })
     })
-    const list: any[] = []
-    primes.forEach((relic_list, reward) => {
-        let reward_object: any = {}
-        reward_object[reward.name] = relic_list
-        list.push(reward_object)
-    })
 
-    return list
+    return Object.fromEntries(primeDropSourcesMap)
 }

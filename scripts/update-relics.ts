@@ -5,15 +5,15 @@ import type ItemApiResponse from "../models/api/api-response"
 
 const response = await fetch("https://drops.warframestat.us/data/relics.json")
 if (response.ok) {
-    const apiresponse: ItemApiResponse = await response.json()
+    const itemApiResponse: ItemApiResponse = await response.json()
     await Bun.write("data/relics.json", JSON.stringify({
-        relics: apiresponse.relics.map((apirelic: ApiRelic) => ({
-            name: apirelic.relicName,
-            era: apirelic.tier,
-            refinement: apirelic.state,
-            rewards: apirelic.rewards.map(apirelicreward => ({
-                name: apirelicreward.itemName,
-                rarity: getRarity(apirelic.state, apirelicreward.chance)
+        relics: itemApiResponse.relics.map((apiRelic: ApiRelic) => ({
+            name: apiRelic.relicName,
+            era: apiRelic.tier,
+            refinement: apiRelic.state,
+            rewards: apiRelic.rewards.map(apiRelicReward => ({
+                name: apiRelicReward.itemName,
+                rarity: getRarity(apiRelic.state, apiRelicReward.chance)
             }))
                 .sort(compareRelicReward)
         }))
