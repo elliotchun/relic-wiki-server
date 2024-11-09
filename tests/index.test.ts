@@ -38,18 +38,18 @@ describe("Relic Compare", () => {
         expect(refinementMapping("Flawless") < refinementMapping("Radiant"))
     })
     it("Lith A1 < Meso A1", () => {
-        const LithA1Relic: Relic = {
+        const lithA1Relic: Relic = {
             name: "A1",
             era: "Lith",
             refinement: "Intact",
             rewards: []
         }
-        const MesoA1Relic: Relic = {
+        const mesoA1Relic: Relic = {
             name: "A1",
             era: "Meso",
             refinement: "Intact",
             rewards: []
         }
-        expect(compareRelic(LithA1Relic, MesoA1Relic)).toBeLessThan(0)
+        expect(compareRelic(lithA1Relic, mesoA1Relic)).toBeLessThan(0)
     })
 })
