@@ -3,8 +3,10 @@
     --text-color: white;
     --font-face: Roboto, Arial, Helvetica, sans-serif;
     --container-bg: rgba(200, 200, 220, 0.6);
+    --content-container-size: 60rem;
     --relic-container-size: 10rem;
     --relic-container-background: rgba(90, 80, 45);
+    --element-border-radius: 1rem;
 }
 
 * {
@@ -40,10 +42,14 @@ h1 {
 }
 
 #container-content {
+    width: var(--content-container-size);
     margin: 3rem;
     padding: 1rem;
     background-color: var(--container-bg);
-    border-radius: 4px;
+    border-radius: var(--element-border-radius);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 #container-relics {
@@ -58,12 +64,24 @@ h1 {
     column-gap: 1rem;
 }
 
-.container-relic, .container-prime {
+#search-bar {
+    display: flex;
+    justify-content: center;
+
+}
+
+#input-search {
+    border-radius: var(--element-border-radius);
+
+}
+
+.container-relic,
+.container-prime {
     margin: 1rem;
     padding: 1rem;
     text-align: center;
     border: 1px solid black;
-    border-radius: 5%;
+    border-radius: var(--element-border-radius);
     font-family: var(--font-face);
     color: white;
     background-color: var(--relic-container-background);

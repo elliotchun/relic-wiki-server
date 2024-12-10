@@ -7,7 +7,7 @@
     <script src='navbar.js'></script>
     <style>
         body {
-            background: url(static/SevagothPrime.jpg) no-repeat center center fixed;
+            background: url(static/XakuPrime.png) no-repeat center center fixed;
             background-size: cover;
         }
     </style>
@@ -18,7 +18,14 @@
     <div id="container-main">
         <div id="container-content">
             <h1>RELICS</h1>
-            <div id="container-relics"></div>
+            <div id="search-bar">
+                <input type="text" id="input-search" name="title" placeholder="Search for relics..."
+                    autocomplete="off" />
+                <div id="search-results"></div>
+            </div>
+            <div>
+                <div id="container-relics"></div>
+            </div>
         </div>
     </div>
     <script type="module" src="relics.js"></script>
