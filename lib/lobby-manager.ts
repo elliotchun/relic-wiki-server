@@ -23,7 +23,6 @@ export const LobbyManager = {
     }
 }
 
-const response = await getRelics()
-response.relics.forEach(relic => {
+getRelics().forEach(relic => {
     LobbyManager.lobbies.set(relicToString(relic), [])
 })
