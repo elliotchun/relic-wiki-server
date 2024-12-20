@@ -1,6 +1,5 @@
 import DoubleMap from "./double-map.ts";
-import type { RelicEra, RelicRefinement } from "../models/relic";
-import type { RewardRarity } from "../models/relic-reward";
+import type { RewardRarity, RelicEra, RelicRefinement } from "../models/relic"
 
 const intactOdds = new DoubleMap<RewardRarity, number>()
 intactOdds.set("Common", 25.33)

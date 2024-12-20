@@ -1,7 +1,12 @@
 export type RewardRarity = "Common" | "Uncommon" | "Rare"
 
+export interface RelicDropLocation {
+    chance: number,
+    location: string
+}
+
 export interface RelicReward {
-    name: string
+    name: string,
     rarity: RewardRarity
 }
 
@@ -9,16 +14,18 @@ export type RelicRefinement = "Intact" | "Exceptional" | "Flawless" | "Radiant"
 export type RelicEra = "Lith" | "Neo" | "Meso" | "Axi" | "Requiem"
 
 export interface Relic {
-    name: string
-    era: RelicEra
-    refinement: RelicRefinement
-    rewards: RelicReward[]
+    name: string,
+    era: RelicEra,
+    refinement: RelicRefinement,
+    rewards: RelicReward[],
+    dropLocations: RelicDropLocation[],
+    vaulted?: boolean
 }
 
-export const relicToString = (relic: Relic) => {
-    return relic.era + relic.name + relic.refinement
-}
+export type ItemApiResponse = Relic[]
 
-export const getRelicName = (relic: Relic) => {
-    return `${relic.era} ${relic.name} (${relic.refinement})`
+export interface SingleRelicApiResponse {
+    name: string,
+    rewards: RelicReward[],
+    vaulted?: boolean
 }

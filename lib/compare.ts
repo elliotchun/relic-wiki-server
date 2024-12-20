@@ -1,6 +1,6 @@
 import type { RelicEra, Relic, RewardRarity, RelicReward } from "../models/relic"
 
-import { rarityMapping, romanNumeralsRequiemMapping } from "./mappings"
+import { rarityMapping, refinementMapping, romanNumeralsRequiemMapping } from "./mappings"
 
 export const compareEra = (a: RelicEra, b: RelicEra) => {
     return rarityMapping(a) - rarityMapping(b)
@@ -33,9 +33,12 @@ export const compareRelicReward = (a: RelicReward, b: RelicReward) => {
 export const compareRelic = (a: Relic, b: Relic) => {
     const comparedEra = compareEra(a.era, b.era)
     if (comparedEra === 0) {
-        if (a.era === "Requiem")
-            return romanNumeralsRequiemMapping(a.name as "I" | "II" | "III" | "IV") - romanNumeralsRequiemMapping(b.name as "I" | "II" | "III" | "IV")
-        return compareRelicName(a.name, b.name)
+        let comparedName = a.era === "Requiem"
+            ? romanNumeralsRequiemMapping(a.name as "I" | "II" | "III" | "IV") - romanNumeralsRequiemMapping(b.name as "I" | "II" | "III" | "IV")
+            : compareRelicName(a.name, b.name)
+        if (comparedName === 0) {
+            return refinementMapping(a.refinement) - refinementMapping(b.refinement)
+        }
     }
     return comparedEra
 }

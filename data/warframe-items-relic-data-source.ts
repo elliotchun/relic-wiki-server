@@ -18,6 +18,10 @@ export const warframeItemsRelics = relics
                     rarity: reward.rarity
                 } as RelicReward))
                 .sort(compareRelicReward),
+            dropLocations: relic.locations.map(location => ({
+                chance: location.chance,
+                location: location.location
+            })),
             vaulted: relic.vaulted
         } as IRelic
     })

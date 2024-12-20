@@ -19,6 +19,11 @@ const updateRelicList = (relics) => {
     relics.forEach(relic => {
         const relicInfo = document.createElement("div")
         relicInfo.innerText = `${relic.era} ${relic.name} (${relic.refinement})`
+        if (relic.vaulted) relicInfo.innerText += `\n[Vaulted]`
+        else if (relic.vaulted === false && relic.dropLocations?.length > 0) {
+            const relicSources = relic.dropLocations.map(location => location.location).join(", ")
+            relicInfo.innerText += `\nDrops from ${relicSources}`
+        }
         relicInfo.classList.add("container-relic")
         relicContainerElement.appendChild(relicInfo)
     })
@@ -26,9 +31,15 @@ const updateRelicList = (relics) => {
 
 const submitSearch = async () => {
     searchString = txtSearch.value
-    if (searchString.length < 3) return
+    let apiEndpoint = `api/search/${searchString}`
+
+    if (searchString.length < 3) {
+        if (searchString.length === 0) apiEndpoint = "api/relics"
+        else return
+    }
+
     const getSearchResultsFromApi = async (searchString) => {
-        const response = await fetch(`api/search/${searchString}`)
+        const response = await fetch(apiEndpoint)
         const searchResult = await response.json()
         mapSearchResultsCache.set(searchString, searchResult)
         return searchResult
@@ -38,7 +49,4 @@ const submitSearch = async () => {
 }
 
 txtSearch.addEventListener("input", debounce(submitSearch, 300))
-
-const response = await fetch("api/relics")
-const relics = await response.json()
-updateRelicList(relics)
+submitSearch()
