@@ -1,6 +1,7 @@
 import { compareRelic, compareRelicReward } from "../lib/compare"
 import { getRarity } from "../lib/mappings"
-import type { ItemApiResponse } from "../models/relic"
+import { getRelicName } from "../lib/relic-utils"
+import type { Relic, ItemApiResponse } from "../models/relic"
 
 interface WarframeStatApiRelicReward {
     _id: string
@@ -31,3 +32,7 @@ export const warframeStatRelics: ItemApiResponse = itemApiResponse.relics
             .sort(compareRelicReward)
     }))
     .sort(compareRelic)
+    .map((relic: Relic) => ({
+        name: getRelicName(relic),
+        rewards: relic.rewards
+    }))

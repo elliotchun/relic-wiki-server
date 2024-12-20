@@ -18,27 +18,26 @@ export const getRelicName = (relic: Relic) => {
 export const getPrimes = () => {
     const primeDropSourcesMap = new Map<string, string[]>()
     relics.forEach(relic => {
-        const relicName = getRelicName(relic)
         relic.rewards.forEach(primePart => {
-            if (primeDropSourcesMap.has(primePart.name)) primeDropSourcesMap.get(primePart.name)?.push(relicName)
-            else primeDropSourcesMap.set(primePart.name, [relicName])
+            if (primeDropSourcesMap.has(primePart.name)) primeDropSourcesMap.get(primePart.name)?.push(relic.name)
+            else primeDropSourcesMap.set(primePart.name, [relic.name])
         })
     })
     return Object.fromEntries(primeDropSourcesMap)
 }
 
 export const searchRelicsByString = (searchString: string): ItemApiResponse => relics.filter(relic => {
-    const relicNameContainsSearchString = getRelicName(relic).toUpperCase().includes(searchString.toUpperCase())
+    const relicNameContainsSearchString = relic.name.toUpperCase().includes(searchString.toUpperCase())
     const relicRewardsContainsSearchString = relic.rewards.some(reward =>
         reward.name.toUpperCase().includes(searchString.toUpperCase()))
     return relicNameContainsSearchString || relicRewardsContainsSearchString
 })
 
 export const getRelicWithName = (relicName: string): SingleRelicApiResponse | undefined => {
-    const result = relics.find(relic => getRelicName(relic).includes(relicName))
+    const result = relics.find(relic => relic.name.includes(relicName))
     if (!result) return undefined
     return {
-        name: `${result.era}  ${result.name}`,
+        name: result.name,
         rewards: result.rewards,
         vaulted: result.vaulted
     }

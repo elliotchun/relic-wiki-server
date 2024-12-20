@@ -23,10 +23,16 @@ export const app = new Elysia()
             })
         )
     })
-    .get("primes", Bun.file("html/primes.html"))
+    .get("/primes", Bun.file("html/primes.html"))
     .group("/api", app => app
-        .get("relic", getRelicWithName)
         .get("/relics", getRelics)
+        .get("/relics/:name", ({ params: { name } }) =>
+            getRelicWithName(decodeURI(name)),
+            {
+                params: t.Object({
+                    name: t.String()
+                })
+            })
         .get("/primes", getPrimes)
         .get("/primes/:name", ({ params: { name } }) =>
             relicSources(decodeURI(name)),

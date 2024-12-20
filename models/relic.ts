@@ -18,14 +18,14 @@ export interface Relic {
     era: RelicEra,
     refinement: RelicRefinement,
     rewards: RelicReward[],
-    dropLocations: RelicDropLocation[],
+    dropLocations?: RelicDropLocation[],
     vaulted?: boolean
 }
-
-export type ItemApiResponse = Relic[]
 
 export interface SingleRelicApiResponse {
     name: string,
     rewards: RelicReward[],
     vaulted?: boolean
 }
+
+export type ItemApiResponse = SingleRelicApiResponse[]

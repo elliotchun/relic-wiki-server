@@ -1,11 +1,12 @@
 import { compareRelic, compareRelicReward } from "../lib/compare"
 import Items from "warframe-items"
 import type { Relic } from "warframe-items"
-import type { RelicEra, RelicRefinement, Relic as IRelic, RelicReward } from "../models/relic"
+import type { RelicEra, RelicRefinement, Relic as IRelic, RelicReward, ItemApiResponse } from "../models/relic"
+import { getRelicName } from "../lib/relic-utils"
 
 const relics = new Items({ category: ["Relics"] }) as Relic[]
 
-export const warframeItemsRelics = relics
+export const warframeItemsRelics: ItemApiResponse = relics
     .map(relic => {
         const [relicEra, relicId, relicRefinement] = relic.name.split(" ")
         return {
@@ -26,4 +27,10 @@ export const warframeItemsRelics = relics
         } as IRelic
     })
     .filter(relic => !(relic.refinement === undefined))
+    .filter(relic => relic.refinement === "Intact")
     .sort(compareRelic)
+    .map((relic: IRelic) => ({
+        name: getRelicName(relic),
+        rewards: relic.rewards,
+        vaulted: relic.vaulted
+    }))

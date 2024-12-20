@@ -17,15 +17,19 @@ let searchString = ""
 const updateRelicList = (relics) => {
     relicContainerElement.innerHTML = ""
     relics.forEach(relic => {
+        const relicName = relic.name
+        const linkToRelicPage = document.createElement("a")
+        linkToRelicPage.setAttribute("href", `?relicName=${relicName}`)
         const relicInfo = document.createElement("div")
-        relicInfo.innerText = `${relic.era} ${relic.name} (${relic.refinement})`
+        relicInfo.innerText = relicName
         if (relic.vaulted) relicInfo.innerText += `\n[Vaulted]`
-        else if (relic.vaulted === false && relic.dropLocations?.length > 0) {
+        if (relic.dropLocations?.length > 0) {
             const relicSources = relic.dropLocations.map(location => location.location).join(", ")
             relicInfo.innerText += `\nDrops from ${relicSources}`
         }
         relicInfo.classList.add("container-relic")
-        relicContainerElement.appendChild(relicInfo)
+        linkToRelicPage.appendChild(relicInfo)
+        relicContainerElement.appendChild(linkToRelicPage)
     })
 }
 
