@@ -11,7 +11,6 @@ const debounce = (callback, timeout) => {
 }
 
 const txtSearch = document.getElementById("input-search")
-const mapSearchResultsCache = new Map()
 let searchString = ""
 
 const updateRelicList = (relics) => {
@@ -33,22 +32,23 @@ const updateRelicList = (relics) => {
     })
 }
 
-const submitSearch = async () => {
+const response = await fetch("api/relics")
+const relics = await response.json()
+
+const submitSearch = () => {
     searchString = txtSearch.value
-    let apiEndpoint = `api/search/${searchString}`
-
     if (searchString.length < 3) {
-        if (searchString.length === 0) apiEndpoint = "api/relics"
-        else return
+        if (searchString.length === 0)
+            updateRelicList(relics)
+        return
     }
 
-    const getSearchResultsFromApi = async (searchString) => {
-        const response = await fetch(apiEndpoint)
-        const searchResult = await response.json()
-        mapSearchResultsCache.set(searchString, searchResult)
-        return searchResult
-    }
-    const searchResult = mapSearchResultsCache.get(searchString) || await getSearchResultsFromApi(searchString)
+    const searchResult = relics.filter(relic => {
+        const relicNameContainsSearchString = relic.name.toUpperCase().includes(searchString.toUpperCase())
+        const relicRewardsContainsSearchString = relic.rewards.some(reward => reward.name.toUpperCase().includes(searchString.toUpperCase()))
+        return relicNameContainsSearchString || relicRewardsContainsSearchString
+    })
+
     updateRelicList(searchResult)
 }
 

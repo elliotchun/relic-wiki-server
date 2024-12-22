@@ -1,10 +1,9 @@
-import { Elysia, redirect, t } from "elysia"
+import { Elysia, t } from "elysia"
 import { cors } from "@elysiajs/cors"
 import { html } from "@elysiajs/html"
 import { staticPlugin } from "@elysiajs/static"
 import { getPrimes, getRelics, relicSources, searchRelicsByString, getRelicWithName } from "./lib/relic-utils"
 import { LobbyManager } from "./lib/lobby-manager"
-import { getSingleRelicPage } from "./scripts/relic-page"
 
 const port = 8080
 export const app = new Elysia()
@@ -48,44 +47,61 @@ export const app = new Elysia()
                     query: t.String()
                 })
             })
+        .post("/auth", ({ body }) => {
+            if (body.username && body.password)
+                return true
+        },
+            {
+                body: t.Object({
+                    username: t.String(),
+                    password: t.String()
+                })
+            })
         .group("/squads", app => app
-            .get("/relic/:relic/", ({ params: { relic } }) =>
-            ({
-                lobbies: {
-                    intact: LobbyManager.getLobby(relic, "Intact").map(u => u.name),
-                    exceptional: LobbyManager.getLobby(relic, "Exceptional").map(u => u.name),
-                    flawless: LobbyManager.getLobby(relic, "Flawless").map(u => u.name),
-                    radiant: LobbyManager.getLobby(relic, "Radiant").map(u => u.name)
+            .guard({
+                beforeHandle: ({ set, cookie: { session } }) => {
+                    return set.status = "Unauthorized"
                 }
-            }),
-                {
-                    params: t.Object({
-                        relic: t.String()
+            }, app => app
+                .get("/", Array.from(LobbyManager.availableLobbies()))
+                .get("/relic/:relic/", ({ params: { relic } }) =>
+                ({
+                    lobbies: {
+                        intact: LobbyManager.getLobby(relic, "Intact").map(u => u.name),
+                        exceptional: LobbyManager.getLobby(relic, "Exceptional").map(u => u.name),
+                        flawless: LobbyManager.getLobby(relic, "Flawless").map(u => u.name),
+                        radiant: LobbyManager.getLobby(relic, "Radiant").map(u => u.name)
+                    }
+                }),
+                    {
+                        params: t.Object({
+                            relic: t.String()
+                        })
                     })
-                })
-            .get("/relic/:relic/:refinement", ({ params: { relic, refinement } }) =>
-            ({
-                lobby: LobbyManager.getLobby(relic, refinement).map(u => u.name)
-            }),
-                {
-                    params: t.Object({
-                        relic: t.String(),
-                        refinement: t.String()
+                .get("/relic/:relic/:refinement", ({ params: { relic, refinement } }) =>
+                ({
+                    lobby: LobbyManager.getLobby(relic, refinement).map(u => u.name)
+                }),
+                    {
+                        params: t.Object({
+                            relic: t.String(),
+                            refinement: t.String()
+                        })
                     })
-                })
-            .post("/join/relic/:relic/:refinement", ({ body, params: { relic, refinement } }) =>
-            ({
-                lobby: LobbyManager.joinLobby({ name: body.username }, relic, refinement)
-            }),
-                {
-                    body: t.Object({
-                        username: t.String()
-                    }),
-                    params: t.Object({
-                        relic: t.String(),
-                        refinement: t.String()
+                .post("/join/relic/:relic/:refinement", ({ body, params: { relic, refinement } }) =>
+                ({
+                    lobby: LobbyManager.joinLobby({ name: body.username }, relic, refinement)
+                }),
+                    {
+                        body: t.Object({
+                            username: t.String()
+                        }),
+                        params: t.Object({
+                            relic: t.String(),
+                            refinement: t.String()
+                        })
                     })
-                })
+            )
         )
     )
     .onError(({ code }) => {

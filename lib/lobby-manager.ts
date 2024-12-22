@@ -1,9 +1,11 @@
 import type User from "../models/user"
-import { getRelics } from "./relic-utils"
-import { relicToString } from "./relic-utils"
+import { getRelics, getPrimes } from "./relic-utils"
 
 export const LobbyManager = {
     lobbies: new Map<string, User[]>(),
+    availableLobbies() {
+        return this.lobbies.keys()
+    },
     getLobby(relicName: string, refinement: string) {
         const lobby = this.lobbies.get(relicName + refinement)
         if (lobby)
@@ -24,5 +26,7 @@ export const LobbyManager = {
 }
 
 getRelics().forEach(relic => {
-    LobbyManager.lobbies.set(relicToString(relic), [])
+    LobbyManager.lobbies.set(relic.name, [])
 })
+
+Object.keys(getPrimes()).forEach(prime => LobbyManager.lobbies.set(prime, []))

@@ -8,7 +8,7 @@ import type { Relic } from "../models/relic"
 describe("Elysia", () => {
     it("All lobbies exist for a random relic", async () => {
         const response = await app
-            .handle(new Request("http://localhost/api/squads/relic/AxiA13/"))
+            .handle(new Request("http://localhost/api/squads/relic/Axi A13/"))
             .then((res) => res.json())
         expect(response).toContainKey("lobbies")
         expect(response.lobbies).toContainAllKeys(["intact", "exceptional", "flawless", "radiant"])
