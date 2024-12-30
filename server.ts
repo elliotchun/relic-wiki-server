@@ -1,4 +1,4 @@
-import { Elysia, t } from "elysia"
+import { Elysia, error, t } from "elysia"
 import { cors } from "@elysiajs/cors"
 import { html } from "@elysiajs/html"
 import { staticPlugin } from "@elysiajs/static"
@@ -47,9 +47,8 @@ export const app = new Elysia()
                     query: t.String()
                 })
             })
-        .post("/auth", ({ body }) => {
-            if (body.username && body.password)
-                return true
+        .post("/auth", () => {
+            return error(503, "Service Unavailable")
         },
             {
                 body: t.Object({
@@ -59,8 +58,8 @@ export const app = new Elysia()
             })
         .group("/squads", app => app
             .guard({
-                beforeHandle: ({ set, cookie: { session } }) => {
-                    return set.status = "Unauthorized"
+                beforeHandle: ({ cookie: { session } }) => {
+                    return error(503, "Service Unavailable")
                 }
             }, app => app
                 .get("/", Array.from(LobbyManager.availableLobbies()))
