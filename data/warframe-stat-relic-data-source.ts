@@ -32,7 +32,8 @@ export const warframeStatRelics: ItemApiResponse = itemApiResponse.relics
             .sort(compareRelicReward)
     }))
     .sort(compareRelic)
+    .filter((relic: Relic) => relic.refinement === "Intact")
     .map((relic: Relic) => ({
-        name: getRelicName(relic),
+        name: `${relic.era} ${relic.name}`,
         rewards: relic.rewards
     }))

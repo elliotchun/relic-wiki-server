@@ -1,28 +1,24 @@
 import { Elysia, error, t } from "elysia"
 import { cors } from "@elysiajs/cors"
-import { html } from "@elysiajs/html"
 import { staticPlugin } from "@elysiajs/static"
-import { getPrimes, getRelics, relicSources, searchRelicsByString, getRelicWithName } from "./lib/relic-utils"
 import { LobbyManager } from "./lib/lobby-manager"
+import { getHomePage, getPrimesPage, getRelicPage, getRelics, getPrimes, getRelicWithName, getRelicSources, getRelicsByString } from "./lib/router"
 
 const port = 8080
+
+
 export const app = new Elysia()
     .use(staticPlugin({ assets: 'public', prefix: '' }))
-    .use(html())
     .use(cors())
-    .get("/", Bun.file('html/index.html'))
-    .get("/relics", async ({ query }) => {
-        if (query.relicName && getRelicWithName(query.relicName))
-            return Bun.file(`html/single-relic.html`)
-        return Bun.file("html/relics.html")
-    }, {
+    .get("/", getHomePage)
+    .get("/relics", getRelicPage, {
         query: t.Optional(
             t.Object({
                 relicName: t.String()
             })
         )
     })
-    .get("/primes", Bun.file("html/primes.html"))
+    .get("/primes", getPrimesPage)
     .group("/api", app => app
         .get("/relics", getRelics)
         .get("/relics/:name", ({ params: { name } }) =>
@@ -34,14 +30,14 @@ export const app = new Elysia()
             })
         .get("/primes", getPrimes)
         .get("/primes/:name", ({ params: { name } }) =>
-            relicSources(decodeURI(name)),
+            getRelicSources(decodeURI(name)),
             {
                 params: t.Object({
                     name: t.String()
                 })
             })
         .get("/search/:query", ({ params: { query } }) =>
-            searchRelicsByString(decodeURI(query)),
+            getRelicsByString(decodeURI(query)),
             {
                 params: t.Object({
                     query: t.String()

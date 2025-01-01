@@ -1,5 +1,11 @@
 import { warframeItemsRelics } from "../data/warframe-items-relic-data-source"
-import type { ItemApiResponse } from "../models/relic"
+import { warframeStatRelics } from "../data/warframe-stat-relic-data-source"
 
-const parsedItems: ItemApiResponse = warframeItemsRelics
-await Bun.write("data/relics.json", JSON.stringify(parsedItems))
+const itemToVaultedStatusMapping = new Map<string, boolean>()
+warframeItemsRelics.forEach(relic => itemToVaultedStatusMapping.set(relic.name, relic.vaulted!))
+const parsedData = warframeStatRelics.map(relic => ({
+    name: relic.name,
+    rewards: relic.rewards,
+    vaulted: itemToVaultedStatusMapping.get(relic.name)
+}))
+await Bun.write("data/relics.json", JSON.stringify(parsedData))

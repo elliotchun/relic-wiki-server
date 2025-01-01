@@ -14,10 +14,10 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@elysiajs/cors": "^1.1.1",
-    "@elysiajs/html": "^1.1.1",
-    "@elysiajs/static": "^1.1.2",
-    "elysia": "^1.1.26",
-    "warframe-items": "^1.1265.9"
+    "@elysiajs/cors": "^1.2.0",
+    "@elysiajs/html": "^1.2.0",
+    "@elysiajs/static": "^1.2.0",
+    "elysia": "^1.2.9",
+    "warframe-items": "^1.1265.13"
   }
 }
